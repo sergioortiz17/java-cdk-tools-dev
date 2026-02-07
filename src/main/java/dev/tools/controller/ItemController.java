@@ -28,7 +28,7 @@ public class ItemController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
         return itemService.findById(id)
-                .map(item -> (ResponseEntity<Object>) ResponseEntity.ok(item))
+                .map(item -> ResponseEntity.<Object>ok(item))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -45,7 +45,7 @@ public class ItemController {
     @PatchMapping("/{id}/toggle")
     public ResponseEntity<Object> toggleComplete(@PathVariable Long id) {
         return itemService.toggleComplete(id)
-                .map(item -> (ResponseEntity<Object>) ResponseEntity.ok(item))
+                .map(item -> ResponseEntity.<Object>ok(item))
                 .orElse(ResponseEntity.notFound().build());
     }
 
