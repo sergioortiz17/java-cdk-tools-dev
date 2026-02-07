@@ -26,14 +26,14 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public ResponseEntity<Object> getById(@PathVariable Long id) {
         return itemService.findById(id)
-                .map(ResponseEntity::ok)
+                .map(item -> (ResponseEntity<Object>) ResponseEntity.ok(item))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateItemRequest request) {
+    public ResponseEntity<Object> create(@RequestBody CreateItemRequest request) {
         try {
             Item item = itemService.create(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(item);
@@ -43,14 +43,14 @@ public class ItemController {
     }
 
     @PatchMapping("/{id}/toggle")
-    public ResponseEntity<?> toggleComplete(@PathVariable Long id) {
+    public ResponseEntity<Object> toggleComplete(@PathVariable Long id) {
         return itemService.toggleComplete(id)
-                .map(ResponseEntity::ok)
+                .map(item -> (ResponseEntity<Object>) ResponseEntity.ok(item))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
         return itemService.deleteById(id)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
