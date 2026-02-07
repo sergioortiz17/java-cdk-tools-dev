@@ -12,6 +12,9 @@ RUN mvn package -DskipTests -B
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
+ARG GIT_SHA=unknown
+ENV APP_VERSION=$GIT_SHA
+
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 

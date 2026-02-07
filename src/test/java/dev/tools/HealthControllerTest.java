@@ -22,7 +22,8 @@ class HealthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ok"))
                 .andExpect(jsonPath("$.app").value("java-cdk-tools-dev"))
-                .andExpect(jsonPath("$.message").value("Hello from ECS!"));
+                .andExpect(jsonPath("$.message").value("Hello from ECS!"))
+                .andExpect(jsonPath("$.commit").exists());
     }
 
     @Test
