@@ -1,0 +1,21 @@
+name: Build and Deploy to ECS
+
+on:
+  workflow_run:
+    workflows: ["Quality Pipeline"]
+    types: [completed]
+    branches: [main, develop]
+
+jobs:
+  build-and-deploy:
+    if: github.event.workflow_run.conclusion == 'success'
+    uses: sergioortiz17/cicd-templates/.github/workflows/ecs-build-deploy.yml@main
+    with:
+      app_name: java-cdk-tools-dev
+      ecr_repository: java-cdk-tools-dev
+      ecs_cluster: dev-cluster
+      ecs_service: java-cdk-tools-dev-service
+      aws_region: us-east-1
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
