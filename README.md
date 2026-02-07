@@ -21,9 +21,17 @@ mvn spring-boot:run
 
 La aplicación estará disponible en `http://localhost:8080`
 
+**Endpoints:**
 - `/` - Health check simple
 - `/health` - Endpoint de actuator
 - `/actuator/health` - Health detallado
+- `/api/items` - CRUD de items (GET lista, POST crear, GET /{id}, PATCH /{id}/toggle, DELETE /{id})
+- `/api/items/stats` - Estadísticas (total, completed)
+
+**Tests:**
+```bash
+mvn test
+```
 
 ## Build Docker
 

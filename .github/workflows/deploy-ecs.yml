@@ -6,7 +6,15 @@ on:
   workflow_dispatch:
 
 jobs:
+  quality-gate:
+    name: Quality Gate
+    uses: sergioortiz17/cicd-templates/.github/workflows/quality-gate.yml@main
+    secrets:
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   build-and-deploy:
+    needs: quality-gate
     uses: sergioortiz17/cicd-templates/.github/workflows/ecs-build-deploy.yml@main
     with:
       app_name: java-cdk-tools-dev
