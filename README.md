@@ -44,7 +44,21 @@ docker run -p 8080:8080 java-cdk-tools-dev
 
 El pipeline usa templates reutilizables del repositorio `cicd-templates`. 
 
-**Importante:** Actualiza `YOUR_GITHUB_ORG` en `.github/workflows/deploy-ecs.yml` con tu usuario u organización de GitHub.
+**Importante:** Actualiza la referencia al repo de templates en `.github/workflows/deploy-ecs.yml` (p. ej. `sergioortiz17/cicd-templates`) con tu usuario u organización de GitHub.
+
+### Configuración CI (`ci-config.json`)
+
+Es el archivo de configuración del CI para esta app (equivalente conceptual a `package.json` para dependencias/scripts o a `karma.conf.js` para la config de tests en Angular). Define rutas de reportes y comandos usados por el quality gate:
+
+| Campo | Descripción | Por defecto |
+|-------|-------------|-------------|
+| `java_version` | Versión de Java en CI | `21` |
+| `checkstyle_report_path` | Ruta del XML de Checkstyle | `target/checkstyle-result.xml` |
+| `coverage_report_path` | Ruta del XML de JaCoCo | `target/site/jacoco/jacoco.xml` |
+| `lint_command` | Comando de lint (documentación) | `mvn checkstyle:checkstyle -B -Dcheckstyle.failOnViolation=false` |
+| `test_command` | Comando de tests (documentación) | `mvn test -B` |
+
+Si tu proyecto genera Checkstyle o JaCoCo en otras rutas, edita `ci-config.json`; el pipeline leerá este archivo y pasará las rutas a los workflows reutilizables.
 
 ## Secrets requeridos en GitHub
 

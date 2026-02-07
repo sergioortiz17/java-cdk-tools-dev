@@ -1,0 +1,7 @@
+{
+  "java_version": "21",
+  "checkstyle_report_path": "target/checkstyle-result.xml",
+  "coverage_report_path": "target/site/jacoco/jacoco.xml",
+  "lint_command": "mvn checkstyle:checkstyle -B -Dcheckstyle.failOnViolation=false",
+  "test_command": "mvn test -B"
+}

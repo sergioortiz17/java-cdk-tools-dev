@@ -6,9 +6,35 @@ on:
   workflow_dispatch:
 
 jobs:
+  read-config:
+    name: Read CI config
+    runs-on: ubuntu-latest
+    outputs:
+      java_version: ${{ steps.config.outputs.java_version }}
+      checkstyle_report_path: ${{ steps.config.outputs.checkstyle_report_path }}
+      coverage_report_path: ${{ steps.config.outputs.coverage_report_path }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: config
+        run: |
+          if [ -f ci-config.json ]; then
+            echo "java_version=$(jq -r '.java_version // "21"' ci-config.json)" >> $GITHUB_OUTPUT
+            echo "checkstyle_report_path=$(jq -r '.checkstyle_report_path // "target/checkstyle-result.xml"' ci-config.json)" >> $GITHUB_OUTPUT
+            echo "coverage_report_path=$(jq -r '.coverage_report_path // "target/site/jacoco/jacoco.xml"' ci-config.json)" >> $GITHUB_OUTPUT
+          else
+            echo "java_version=21" >> $GITHUB_OUTPUT
+            echo "checkstyle_report_path=target/checkstyle-result.xml" >> $GITHUB_OUTPUT
+            echo "coverage_report_path=target/site/jacoco/jacoco.xml" >> $GITHUB_OUTPUT
+          fi
+
   quality-gate:
     name: Quality Gate
+    needs: read-config
     uses: sergioortiz17/cicd-templates/.github/workflows/quality-gate.yml@main
+    with:
+      java_version: ${{ needs.read-config.outputs.java_version }}
+      checkstyle_report_path: ${{ needs.read-config.outputs.checkstyle_report_path }}
+      coverage_report_path: ${{ needs.read-config.outputs.coverage_report_path }}
     secrets:
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
