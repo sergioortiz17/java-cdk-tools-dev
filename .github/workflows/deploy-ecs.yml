@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    uses: YOUR_GITHUB_ORG/cicd-templates/.github/workflows/ecs-build-deploy.yml@main
+    uses: sergioortiz17/cicd-templates/.github/workflows/ecs-build-deploy.yml@main
     with:
       app_name: java-cdk-tools-dev
       ecr_repository: java-cdk-tools-dev
