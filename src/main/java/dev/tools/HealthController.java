@@ -1,5 +1,6 @@
 package dev.tools;
 
+import dev.tools.util.LinterDemoUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,8 @@ public class HealthController {
         Map<String, String> body = new TreeMap<>(Map.of(
                 "status", "ok",
                 "app", "java-cdk-tools-dev",
-                "message", "Hello from ECS!"
+                "message", "Hello from ECS!",
+                "tags", String.join(",", LinterDemoUtil.getTags())
         ));
         body.put("commit", version);
 
